@@ -8,24 +8,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set output value 1
+      - name: Mask output value
         id: first
         shell: bash
         run: |
           value1='This is the first value'
 
+
+          echo "::add-mask::$value1"
           echo "::set-output name=first_value::$value1"
 
-      - name: Set output value 2
-        id: second
-        shell: pwsh
-        run: |
-          $value2 = "This is the second value"
-
-          echo "::set-output name=second_value::$value2"
-
-      - name: Check output vlaue
+      - name: Check output value
         shell: bash
         run: |
-          echo "first value: ${{ steps.first.outputs.first_value }}"
-          echo "second value: ${{ steps.first.outputs.second_value }}"
+          value1='This is the first value'
+
+          echo "value: ${{ steps.first.outputs.first_value }}"
