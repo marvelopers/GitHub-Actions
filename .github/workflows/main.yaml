@@ -7,7 +7,7 @@ jobs:
     name: "First Job"
 
     strategy:
-      metrix:
+      matrix:
         os: ["windows-latest", "macos-latest", "ubuntu-latest"]
 
     runs-on: ${{ matrix.os }}
@@ -16,4 +16,4 @@ jobs:
       - name: Say Hello World from ${{ matrix.os }}
         shell: bash
         run: |
-          echo 'Hello, from ${{ matrix.os }}'
+          echo "Hello, from ${{ matrix.os }}"
