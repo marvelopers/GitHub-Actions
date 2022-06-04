@@ -24,3 +24,8 @@ jobs:
           value1='This is the first value'
 
           echo "value: ${{ steps.first.outputs.first_value }}"
+
+      - name: Check github secrets
+        shell: bash
+        run: |
+          echo "secret: ${{ secrets.HELLO }}"
