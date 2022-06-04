@@ -19,11 +19,11 @@ jobs:
       - name: Set enviroment variable 2
         shell: pwsh
         run: |
-        echo "VAR2='This is the value from the step 2'" | `
-          Out-File -FilePath $env:GITHUB_ENV -Encoding UTF-8 -Append
+          echo "VAR2='This is the value from the step 2'" | `
+            Out-File -FilePath $env:GITHUB_ENV -Encoding UTF-8 -Append
 
       - name: Check enviroment variabls
-        shell : bash
+        shell: bash
         run: |
           echo "preset value: ${{ env.PERSET_VALUE }}"
           echo "var1: ${{ env.VAR1 }}"
