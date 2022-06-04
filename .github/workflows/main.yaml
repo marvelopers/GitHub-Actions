@@ -3,66 +3,28 @@ name: "My First GitHub Actions"
 on: push
 
 env:
-  WORKFLOW_LEVEL: "This environment variable comes from the workflow level"
+  [PRESET_VALUE]: "This is the value preset"
 
 jobs:
   first_job:
     name: "First Job"
     runs-on: ubuntu-latest
 
-    env:
-      JOB_LEVEL_1: "This environment variable comes from the job level - first job"
-
     steps:
-      - name: "Say Hello World 1"
+      - name: Set enviroment variable 1
         shell: bash
         run: |
-          echo "Hello World from Step #1"
-      - name: "Say Lorem Ipsum 2"
-        shell: pwsh
-        run: |
-          echo "Lorem Ipsum from Step #2"
-      - name: Check environment variable 1
-        shell: bash
-        env:
-          STEP_LEVEL_1: "This environment variable comes from the step level 1"
-        run: |
-          echo "workflow level: $WORKFLOW_LEVEL"
-          echo "job level: ${{ env.JOB_LEVEL_1 }}"
-          echo "step level: $STEP_LEVEL_1"
-  second_job:
-    name: "Second Job"
-    runs-on: ubuntu-latest
+        echo "VAR1='This is the value from the step 1'" >> $GITHUB_ENV
 
-    env:
-      JOB_LEVEL_2: "This environment variable comes from the job level - second job"
+      - name: Set enviroment variable 2
+        shell: pwsh
+        run: |
+        echo "VAR2='This is the value from the step 2'" | `
+          Out-File -FilePath $env:GITHUB_ENV - Encoding UTF-8 -Append
 
-    steps:
-      - name: "Say Hello World 1"
-        shell: bash
+      - name: Check enviroment variabls
+        shell : bash
         run: |
-          echo "Hello World from Step #1"
-      - name: "Say Lorem Ipsum 2"
-        shell: pwsh
-        run: |
-          echo "Lorem Ipsum from Step #2"
-      - name: Check environment variable 1
-        shell: bash
-        env:
-          STEP_LEVEL_1: "This environment variable comes from the step level 1"
-        run: |
-          echo "workflow level: $WORKFLOW_LEVEL"
-          echo "job level: $JOB_LEVEL_1"
-          echo "job level: $JOB_LEVEL_2"
-          echo "step level: $STEP_LEVEL_1"
-          echo "step level: $STEP_LEVEL_2"
-      - name: Check environment variable 2
-        shell: pwsh
-        env:
-          STEP_LEVEL_2: "This environment variable comes from the step level 2"
-        run: |
-          echo "workflow level: $env:WORKFLOW_LEVEL"
-          echo "job level: $JOB_LEVEL_1"
-          echo "job level: ${{ env.JOB_LEVEL_2 }}"
-          echo "step level: $STEP_LEVEL_1"
-          echo "step level: $STEP_LEVEL_2"
+          echo "preset value: ${{ env.PERSET_VALUE }}"
+          echo "var1: ${{ env.VAR1 }}"
+          echo "var2: ${{ env.VAR2}}"
