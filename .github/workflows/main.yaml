@@ -14,7 +14,7 @@ jobs:
         run: |
           echo "Hello World"
 
-  first_job:
+  second_job:
     name: "Second Job"
     needs: first_job
 
@@ -25,4 +25,3 @@ jobs:
         shell: bash
         run: |
           echo "Lorm Ipsunm"
-
