@@ -2,10 +2,17 @@ name: "My First GitHub Actions"
 
 on: push
 
+env:
+  WORKFLOW_LEVEL: "This environment variable comes from the workflow level"
+
 jobs:
   first_job:
     name: "First Job"
     runs-on: ubuntu-latest
+
+    env:
+      JOB_LEVEL_1: "This environment variable comes from the job level - first job"
+
     steps:
       - name: "Say Hello World 1"
         shell: bash
@@ -15,3 +22,47 @@ jobs:
         shell: pwsh
         run: |
           echo "Lorem Ipsum from Step #2"
+      - name: Check environment variable 1
+        shell: bash
+        env:
+          STEP_LEVEL_1: "This environment variable comes from the step level 1"
+        run: |
+          echo "workflow level: $WORKFLOW_LEVEL"
+          echo "job level: $JOB_LEVEL_1"
+          echo "step level: $STEP_LEVEL_1"
+  second_job:
+    name: "Second Job"
+    runs-on: ubuntu-latest
+
+    env:
+      JOB_LEVEL_2: "This environment variable comes from the job level - second job"
+
+    steps:
+      - name: "Say Hello World 1"
+        shell: bash
+        run: |
+          echo "Hello World from Step #1"
+      - name: "Say Lorem Ipsum 2"
+        shell: pwsh
+        run: |
+          echo "Lorem Ipsum from Step #2"
+      - name: Check environment variable 1
+        shell: bash
+        env:
+          STEP_LEVEL_1: "This environment variable comes from the step level 1"
+        run: |
+          echo "workflow level: $WORKFLOW_LEVEL"
+          echo "job level: $JOB_LEVEL_1"
+          echo "job level: $JOB_LEVEL_2"
+          echo "step level: $STEP_LEVEL_1"
+          echo "step level: $STEP_LEVEL_2"
+      - name: Check environment variable 2
+        shell: bash
+        env:
+          STEP_LEVEL_2: "This environment variable comes from the step level 2"
+        run: |
+          echo "workflow level: $WORKFLOW_LEVEL"
+          echo "job level: $JOB_LEVEL_1"
+          echo "job level: $JOB_LEVEL_2"
+          echo "step level: $STEP_LEVEL_1"
+          echo "step level: $STEP_LEVEL_2"
