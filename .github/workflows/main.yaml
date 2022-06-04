@@ -5,7 +5,8 @@ on: ["push", "pull_request"]
 jobs:
   first_job:
     name: "First Job"
-    if: github.event.name == 'push'
+    if: github.event_name == 'push'
+
     strategy:
       matrix:
         os: ["windows-latest", "macos-latest", "ubuntu-latest"]
@@ -24,10 +25,9 @@ jobs:
         run: |
           echo "Hello, from ${{ matrix.os }}"
           echo "node version: $(node --version)"
-
   second_job:
     name: "Second Job"
-    if: github.event.name == 'pull_request'
+    if: github.event_name == 'pull_request'
 
     strategy:
       matrix:
