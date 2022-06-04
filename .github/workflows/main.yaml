@@ -6,22 +6,32 @@ jobs:
   first_job:
     name: "First Job"
 
-    runs-os: ubuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Say Hello from first job
+      - name: Say Hello from First Job
         shell: bash
         run: |
           echo "Hello World"
-
   second_job:
     name: "Second Job"
     needs: first_job
 
-    runs-os: ubuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Say Hello from Sucond job
+      - name: Say Hello from Second Job
         shell: bash
         run: |
-          echo "Lorm Ipsunm"
+          echo "Lorm Ipsum"
+  third_job:
+    name: "Third Job"
+    needs: second_job
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Say Hello from Third Job
+        shell: bash
+        run: |
+          echo "Lorm Ipsum"
