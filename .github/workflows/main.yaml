@@ -26,7 +26,9 @@ jobs:
           echo "Lorm Ipsum"
   third_job:
     name: "Third Job"
-    needs: second_job
+    needs:
+      - first_job
+      - second_job
 
     runs-on: ubuntu-latest
 
