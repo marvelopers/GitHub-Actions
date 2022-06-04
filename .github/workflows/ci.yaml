@@ -1,0 +1,44 @@
+name: "Continuous Integration"
+
+on:
+  workflow_call:
+    inputs:
+      artifact_name:
+        type: string
+        required: false
+        default: apiapp
+
+jobs:
+  build:
+    name: "Build App"
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "6.x"
+
+      - name: Restore NuGet packages
+        shell: bash
+        run: |
+          dotnet restore ./api
+
+      - name: Build app
+        shell: bash
+        run: |
+          dotnet build ./api -c Release
+
+      - name: Create artifact
+        shell: bash
+        run: |
+          dotnet publish ./api -c Release -o ./api/bin/published
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ inputs.artifact_name }}
+          path: api/bin/published

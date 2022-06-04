@@ -1,0 +1,41 @@
+name: "Continuous Deployment"
+
+on:
+  workflow_call:
+    inputs:
+      title:
+        type: string
+        required: true
+        description: Title of release
+      artifact_name:
+        type: string
+        required: false
+        default: apiapp
+
+jobs:
+  release:
+    name: "Release App"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ inputs.artifact_name }}
+          path: artifacts/api
+
+      - name: Zip artifact
+        shell: bash
+        run: |
+          pushd artifacts/api
+          zip -qq -r ${{ inputs.artifact_name }}.zip .
+          popd
+          mv artifacts/api/${{ inputs.artifact_name }}.zip artifacts/${{ inputs.artifact_name }}.zip
+      - name: Release artifact to GitHub
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          prerelease: false
+          title: ${{ github.event.inputs.title }}
+          files: |
+            artifacts/${{ inputs.artifact_name }}.zip
