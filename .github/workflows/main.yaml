@@ -28,7 +28,7 @@ jobs:
           STEP_LEVEL_1: "This environment variable comes from the step level 1"
         run: |
           echo "workflow level: $WORKFLOW_LEVEL"
-          echo "job level: $JOB_LEVEL_1"
+          echo "job level: ${{ env.JOB_LEVEL_1 }}"
           echo "step level: $STEP_LEVEL_1"
   second_job:
     name: "Second Job"
@@ -57,12 +57,12 @@ jobs:
           echo "step level: $STEP_LEVEL_1"
           echo "step level: $STEP_LEVEL_2"
       - name: Check environment variable 2
-        shell: bash
+        shell: pwsh
         env:
           STEP_LEVEL_2: "This environment variable comes from the step level 2"
         run: |
-          echo "workflow level: $WORKFLOW_LEVEL"
+          echo "workflow level: $env:WORKFLOW_LEVEL"
           echo "job level: $JOB_LEVEL_1"
-          echo "job level: $JOB_LEVEL_2"
+          echo "job level: ${{ env.JOB_LEVEL_2 }}"
           echo "step level: $STEP_LEVEL_1"
           echo "step level: $STEP_LEVEL_2"
