@@ -1,6 +1,18 @@
 name: "My First GitHub Actions"
 
-on: ["push", "pull_request"]
+on:
+  push:
+    branches:
+      - main
+      # - feature/
+    # 모노레포 사용 시
+    # path:
+    #   - "src/library"
+    tags:
+      - "v*"
+  pull_request:
+    branches:
+      - main
 
 jobs:
   first_job:
