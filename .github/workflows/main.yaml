@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - main
-      # - feature/
-    # 모노레포 사용 시
-    # path:
-    #   - "src/library"
     tags:
       - "v*"
   pull_request:
@@ -15,36 +11,36 @@ on:
       - main
 
 jobs:
-  first_job:
-    name: "First Job"
+  build:
+    name: "Build App"
 
     runs-on: ubuntu-latest
 
     steps:
-      - name: Say Hello from First Job
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "6.x"
+
+      - name: Restore NuGet packages
         shell: bash
         run: |
-          echo "Hello World"
-  second_job:
-    name: "Second Job"
+          dotnet restore ./api
 
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Say Hello from Second Job
+      - name: Build app
         shell: bash
         run: |
-          echo "Lorm Ipsum"
-  third_job:
-    name: "Third Job"
-    needs:
-      - first_job
-      - second_job
+          dotnet build ./api -c Release
 
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Say Hello from Third Job
+      - name: Create artifact
         shell: bash
         run: |
-          echo "Lorm Ipsum"
+          dotnet publish ./api -c Release -o ./api/bin/published
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: apiapp
+          path: api/bin/published
